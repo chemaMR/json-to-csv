@@ -1,13 +1,21 @@
 import json
 import pandas as pd
 import os
+import argparse
 
 
-def json_to_csv(json_file):
+def main():
 
-    csv_file = json_file.replace('json', 'csv')
+    # Parse commandline arguments
+    parser = argparse.ArgumentParser(description='create a csv file gfw climate json file')
+    parser.add_argument('--json', '-j', required=True, help='path to json file')
 
-    with open(json_file) as json_data:
+    args = parser.parse_args()
+
+    # Name of csv file
+    csv_file = args.json.replace('json', 'csv')
+
+    with open(args.json) as json_data:
         d = json.load(json_data)
 
     dict_list = d['data']
@@ -15,3 +23,7 @@ def json_to_csv(json_file):
     df = pd.DataFrame(dict_list)
 
     df.to_csv(csv_file)
+
+
+if __name__ == "__main__":
+    main()
