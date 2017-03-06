@@ -9,6 +9,7 @@ def main():
     # Parse commandline arguments
     parser = argparse.ArgumentParser(description='create a csv file gfw climate json file')
     parser.add_argument('--json', '-j', required=True, help='path to json file')
+    parser.add_argument('--climate', '-c', help='if this is a climate file, True', action='store_true')
 
     args = parser.parse_args()
 
@@ -18,12 +19,15 @@ def main():
     with open(args.json) as json_data:
         d = json.load(json_data)
 
-    dict_list = d['data']
+    if args.climate:
 
-    df = pd.DataFrame(dict_list)
+        d = d['data']
+
+    df = pd.DataFrame(d)
 
     df.to_csv(csv_file)
 
 
 if __name__ == "__main__":
     main()
+
